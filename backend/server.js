@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db"); // importing the connectDB function from db.js
 const userRoutes = require("./routes/userRoutes"); // importing user routes
+const productRoutes = require("./routes/productRoutes"); // importing product routes
 
 const app = express(); // initializing an application using express
 app.use(express.json());
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 
 // API Routes
 app.use("/api/users", userRoutes); // using user routes
+app.use("/api/products", productRoutes); // using user routes
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
