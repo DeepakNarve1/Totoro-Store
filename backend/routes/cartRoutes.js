@@ -103,7 +103,7 @@ router.put("/", async (req, res) => {
         item.color === color
     );
 
-    if (!productIndex > -1) {
+    if (productIndex > -1) {
       // Update quantity
       if (quantity > 0) {
         cart.products[productIndex].quantity = quantity;
@@ -143,7 +143,7 @@ router.delete("/", async (req, res) => {
         item.color === color
     );
 
-    if (!productIndex > -1) {
+    if (productIndex > -1) {
       cart.products.splice(productIndex, 1); // Remove product from cart
 
       cart.totalPrice = cart.products.reduce(
