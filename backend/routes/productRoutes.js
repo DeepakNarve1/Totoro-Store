@@ -245,7 +245,7 @@ router.get("/", async (req, res) => {
 // @access Public
 router.get("/best-seller", async (req, res) => {
   try {
-    const bestSeller = await Product.findOne({}).sort({ rating: -1 });
+    const bestSeller = await Product.findOne({}).sort({ ratings: -1 });
     if (bestSeller) {
       res.json(bestSeller);
     } else {

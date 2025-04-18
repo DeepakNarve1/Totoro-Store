@@ -14,7 +14,7 @@ router.post("/", protect, async (req, res) => {
   const { checkoutItems, shippingAddress, paymentMethod, totalPrice } =
     req.body;
 
-  if (!checkoutItems || checkoutItems.length === 0) {
+  if (!checkoutItems && checkoutItems.length === 0) {
     return res.status(400).json({ message: "no item in checkout" });
   }
 
@@ -22,13 +22,15 @@ router.post("/", protect, async (req, res) => {
     // Create a new checkout session
     const newCheckout = await Checkout.create({
       user: req.user._id,
-      orderItems: checkoutItems,
+      checkoutItems: checkoutItems,
       shippingAddress,
       paymentMethod,
       totalPrice,
       paymentStatus: "Pending",
       isPaid: false,
     });
+    console.log(`Checkout created for user: ${req.user._id}`);
+    res.status(201).json(newCheckout);
   } catch (error) {
     console.error("Error Creating checkout session", error);
     res.status(500).json({ message: "Server error" });
@@ -47,7 +49,7 @@ router.put("/:id/pay", protect, async (req, res) => {
       return res.status(404).json({ message: "Checkout not found" });
     }
 
-    if (paymentStatus === "Paid") {
+    if (paymentStatus === "paid") {
       checkout.isPaid = true;
       checkout.paidAt = Date.now();
       checkout.paymentStatus = paymentStatus;
@@ -75,11 +77,11 @@ router.post("/:id/finalize", protect, async (req, res) => {
       return res.status(404).json({ message: "Checkout not found" });
     }
 
-    if (checkout.isPaid && !checkout.isFinalized) {
+    if (checkout.isPaid || !checkout.isFinalized) {
       // Create final order based on the checkout details
       const finalOrder = await Order.create({
         user: checkout.user,
-        orderItems: checkout.orderItems,
+        checkoutItems: checkout.checkoutItems,
         shippingAddress: checkout.shippingAddress,
         paymentMethod: checkout.paymentMethod,
         totalPrice: checkout.totalPrice,
