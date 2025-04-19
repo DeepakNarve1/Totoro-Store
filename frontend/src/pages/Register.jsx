@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import register from "../assets/Dead.jpg";
+import { registerUser } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
-  const handleSumbit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("User Registered:", { name, email, password });
+    dispatch(registerUser({ name, email, password }));
   };
 
   return (
     <div className="flex">
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
         <form
-          onSubmit={handleSumbit}
+          onSubmit={handleSubmit}
           className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm"
         >
           <div className="flex justify-center mb-6">
@@ -65,7 +68,7 @@ const Register = () => {
             Sign Up
           </button>
           <p className="mt-6 text-center text-sm">
-            Dont't have an account?{" "}
+            Already have an account?{" "}
             <Link to="/login" className="text-blue-500">
               Login
             </Link>
