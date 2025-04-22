@@ -7,6 +7,7 @@ import {
   fetchProductDetails,
   fetchSimilarProducts,
 } from "../../redux/slices/productsSlice";
+import { addToCart } from "../../redux/slices/cartSlice";
 
 const ProductDetails = ({ productId }) => {
   const { id } = useParams();
@@ -14,8 +15,7 @@ const ProductDetails = ({ productId }) => {
   const { selectedProduct, loading, error, similarProducts } = useSelector(
     (state) => state.products
   );
-  console.log(selectedProduct);
-  
+
   const { user, guestId } = useSelector((state) => state.auth);
   const [mainImage, setMainImage] = useState("");
   const [selectedsize, setSelectedSize] = useState("");
@@ -234,7 +234,11 @@ const ProductDetails = ({ productId }) => {
             <h2 className="text-2xl text-center font-medium mb-4">
               You May Also Like
             </h2>
-            <ProductGrid products={similarProducts} />
+            <ProductGrid
+              products={similarProducts}
+              loading={loading}
+              error={error}
+            />
           </div>
         </div>
       )}
