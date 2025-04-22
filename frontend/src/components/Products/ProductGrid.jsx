@@ -2,15 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const ProductGrid = ({ products, loading, error }) => {
-  console.log(products);
-  console.log(loading);
-  
   if (loading) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
 
   if (error) {
-    return <p>Error: {error}</p>
+    return <p>Error: {error}</p>;
   }
 
   return (

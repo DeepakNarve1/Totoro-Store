@@ -17,24 +17,25 @@ const Home = () => {
 
   useEffect(() => {
     // Fetch products for a specific collection
-    dispatch(fetchProductsByFilters({
-      gender: "Women",
-      category: "Bottom Wear",
-      limit: 8,
-    })
-  );
-  // Fetch best seller product
-  const fetchBestSeller = async () => {
-    try {
-      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`);
-      console.log(response.data);
-      
-      setBestSellerProduct(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
-  fetchBestSeller();
+    dispatch(
+      fetchProductsByFilters({
+        gender: "Women",
+        category: "Bottom Wear",
+        limit: 8,
+      })
+    );
+    // Fetch best seller product
+    const fetchBestSeller = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/products/best-seller`
+        );
+        setBestSellerProduct(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchBestSeller();
   }, [dispatch]);
 
   return (
@@ -45,7 +46,9 @@ const Home = () => {
 
       {/* Best Seller */}
       <h2 className=" text-3xl text-center font-bold mb-4">Best Seller</h2>
-      {bestSellerProduct ? (<ProductDetails productId={bestSellerProduct._id} />) : (
+      {bestSellerProduct ? (
+        <ProductDetails productId={bestSellerProduct._id} />
+      ) : (
         <p className="text-center">Loading best seller product ...</p>
       )}
 
