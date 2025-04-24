@@ -1,13 +1,34 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import login from "../assets/Dead.jpg";
 import { loginUser } from "../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { mergeCarts } from "../redux/slices/cartSlice";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { user, guestId } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
+
+  // Get redirect parameter and check if it's checkout something
+  const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+  const isCheckOutRedirect = redirect.includes("checkout");
+
+  useEffect(() => {
+    if (user) {
+      if (cart?.products.length > 0 && guestId) {
+        dispatch(mergeCarts()).then(() => {
+          navigate(isCheckOutRedirect ? "/checkout" : "/");
+        });
+      } else {
+        navigate(isCheckOutRedirect ? "/checkout" : "/");
+      }
+    }
+  }, [user, guestId, cart, navigate, isCheckOutRedirect, dispatch]);
 
   const handleSumbit = (e) => {
     e.preventDefault();
@@ -17,11 +38,16 @@ const Login = () => {
   return (
     <div className="flex">
       <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
-        <form onSubmit={handleSumbit} className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm">
+        <form
+          onSubmit={handleSumbit}
+          className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm"
+        >
           <div className="flex justify-center mb-6">
             <h2 className="text-xl font-medium">Todoro</h2>
           </div>
-          <h2 className="text-2xl font-bold text-center mb-6">Hey there ! 😶‍🌫️🙀</h2>
+          <h2 className="text-2xl font-bold text-center mb-6">
+            Hey there ! 😶‍🌫️🙀
+          </h2>
           <p className="text-center mb-6">
             Enter your Username and Password to Login.
           </p>
@@ -53,7 +79,10 @@ const Login = () => {
           </button>
           <p className="mt-6 text-center text-sm">
             Don't have an account?{" "}
-            <Link to="/register" className="text-blue-500">
+            <Link
+              to={`/register?redirect=${encodeURIComponent(redirect)}`}
+              className="text-blue-500"
+            >
               Register
             </Link>
           </p>
