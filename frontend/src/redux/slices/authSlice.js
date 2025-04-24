@@ -13,7 +13,7 @@ localStorage.setItem("guestId", initialGuestId);
 
 // Initial state for the auth slice
 const initialState = {
-  user: userFromStorage,
+  user: userFromStorage?.user || null,
   guestId: initialGuestId,
   loading: false,
   error: null,
