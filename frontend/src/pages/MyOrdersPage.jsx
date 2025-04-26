@@ -1,49 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { fetchUserOrders } from "../redux/slices/orderSlice";
 
 const MyOrdersPage = () => {
-  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { orders, loading, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
-    // Simulate fetching orders
-    setTimeout(() => {
-      const mockOrders = [
-        {
-          _id: "123456",
-          createdAt: new Date(),
-          shippingAddress: { city: "New York", country: "USA" },
-          OrderItems: [
-            {
-              name: "Product 1",
-              image: "https://picsum.photos/500/500?random=1",
-            },
-          ],
-          totalPrice: 100,
-          isPaid: true,
-        },
-        {
-          _id: "664578",
-          createdAt: new Date(),
-          shippingAddress: { city: "New York", country: "USA" },
-          OrderItems: [
-            {
-              name: "Product 1",
-              image: "https://picsum.photos/500/500?random=1",
-            },
-          ],
-          totalPrice: 100,
-          isPaid: true,
-        },
-      ];
-
-      setOrders(mockOrders);
-    }, 1000);
-  }, []);
+    dispatch(fetchUserOrders());
+  }, [dispatch]);
 
   const handleRowClick = (orderId) => {
     navigate(`/order/${orderId}`);
   };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
@@ -70,17 +44,21 @@ const MyOrdersPage = () => {
                   className="border-b hover:border-gray-50 cursor-pointer"
                 >
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    <img
-                      src={order.OrderItems[0].image}
-                      alt={order.OrderItems[0].name}
-                      className="w-10 h-10 sm:w-12 sm:h-1/2 object-cover rounded-lg"
-                    />
+                    {order.checkoutItems && order.checkoutItems.length > 0 ? (
+                      <img
+                        src={order.checkoutItems[0].image}
+                        alt={order.checkoutItems[0].name}
+                        className="w-10 h-10 sm:w-12 sm:h-1/2 object-cover rounded-lg"
+                      />
+                    ) : (
+                      <span className="text-gray-400 text-xs">No image</span>
+                    )}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
                     #{order._id}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {new Date(order.createdAt).toLocaleDateString()}
+                    {new Date(order.createdAt).toLocaleDateString()}{" "}
                     {new Date(order.createdAt).toLocaleTimeString()}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
@@ -89,7 +67,7 @@ const MyOrdersPage = () => {
                       : "N/A"}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {order.OrderItems.length}
+                    {order.checkoutItems?.length || 0}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     ${order.totalPrice}
