@@ -73,16 +73,21 @@ const Checkout = () => {
         `${
           import.meta.env.VITE_BACKEND_URL
         }/api/checkout/${checkoutId}/finalize`,
+        {}, // Send an empty body since no data is being sent in the request
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`, // Authorization header
           },
         }
       );
 
+      // Navigate to the order confirmation page upon successful response
       navigate("/order-confirmation");
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Error finalizing checkout:",
+        error.response || error.message
+      );
     }
   };
 
