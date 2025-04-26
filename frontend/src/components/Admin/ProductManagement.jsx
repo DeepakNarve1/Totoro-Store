@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  deleteProduct,
+  fetchAdminProducts,
+} from "../../redux/slices/adminProductSlice";
 
 const ProductManagement = () => {
-  const products = [
-    {
-      _id: 36423,
-      name: "Todoro Shirt",
-      price: 110,
-      sku: "12356765",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector(
+    (state) => state.adminProducts
+  );
 
-  const handleDelete =(id)=> {
-    if(window.confirm("Are you sure you want to delete the product?")) {
-        console.log("Delete Product with id:", id);
+  useEffect(() => {
+    dispatch(fetchAdminProducts());
+  }, [dispatch]);
+
+  const handleDelete = (id) => {
+    if (window.confirm("Are you sure you want to delete the product?")) {
+      dispatch(deleteProduct(id));
     }
-  }
+  };
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error = {error}</p>;
 
   return (
     <div className="max-w-7xl mx-auto p6">
@@ -47,11 +55,13 @@ const ProductManagement = () => {
                       to={`/admin/products/${product._id}/edit`}
                       className="bg-yellow-500 text-white px-2 py-1 rounded mr-2 hover:bg-yellow-600"
                     >
-                        Edit
+                      Edit
                     </Link>
-                    <button onClick={() => handleDelete(product._id)}
-                        className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
-                        Delete
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                    >
+                      Delete
                     </button>
                   </td>
                 </tr>
@@ -59,7 +69,7 @@ const ProductManagement = () => {
             ) : (
               <tr>
                 <td colSpan={4} className="p-4 text-center text-gray-500">
-                    No Products found.
+                  No Products found.
                 </td>
               </tr>
             )}

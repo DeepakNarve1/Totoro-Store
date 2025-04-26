@@ -58,14 +58,11 @@ export const updateProduct = createAsyncThunk(
 export const deleteProduct = createAsyncThunk(
   "adminProducts/deleteProduct",
   async (id) => {
-    const response = await axios.delete(
-      `${Api_URL}/api/admin/products/${id}`,
-      {
-        headers: {
-          Authorization: USER_TOKEN,
-        },
-      }
-    );
+    const response = await axios.delete(`${Api_URL}/api/products/${id}`, {
+      headers: {
+        Authorization: USER_TOKEN,
+      },
+    });
     return id;
   }
 );
@@ -92,12 +89,12 @@ const adminProductSlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
-    //   Create a new product
+      //   Create a new product
       .addCase(createProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.products.push(action.payload);
       })
-    //   Update Product
+      //   Update Product
       .addCase(updateProduct.fulfilled, (state, action) => {
         const index = state.products.findIndex(
           (product) => product._id === action.payload._id
