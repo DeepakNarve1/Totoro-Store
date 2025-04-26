@@ -1,36 +1,22 @@
-import React from "react";
-
-const checkout = {
-  _id: "56452",
-  createdAt: new Date(),
-  checkoutItems: [
-    {
-      productsId: "1",
-      name: "Jeans",
-      color: "blue",
-      size: "M",
-      price: "120",
-      quantity: "1",
-      Image: "https://picsum.photos/500/500?random=1",
-    },
-    {
-      productsId: "6",
-      name: "Shirt",
-      color: "Green",
-      size: "L",
-      price: "80",
-      quantity: "6",
-      Image: "https://picsum.photos/500/500?random=6",
-    },
-  ],
-  shippingAddress: {
-    address: "203 Fashion Street",
-    city: "New York",
-    country: "USA",
-  },
-};
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../redux/slices/cartSlice";
 
 const OrderConfirmationPage = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { checkout } = useSelector((state) => state.checkout);
+  console.log(checkout);
+  // Clear the cart when the order is confirmed
+  useEffect(() => {
+    if (checkout && checkout._id) {
+      dispatch(clearCart());
+      localStorage.removeItem("cart");
+    } else {
+      navigate("/my-orders");
+    }
+  }, [dispatch, navigate, checkout]);
   const calculateEstimatedDelivery = (createdAt) => {
     const orderDate = new Date(createdAt);
     orderDate.setDate(orderDate.getDate() + 10); // Adding 10 days to order date
@@ -66,39 +52,43 @@ const OrderConfirmationPage = () => {
           {/* Ordered Items */}
           <div className="mb-20">
             {checkout.checkoutItems.map((item) => (
-                <div key={item.productsId} className="flex items-center mb-4">
-                    <img src={item.Image} alt={item.name} className="w-16 h-16  object-cover rounded-md mr-4"/>
-                    <div>
-                        <h4 className="text-md font-semibold">{item.name}</h4>
-                        <p className="text-sm text-gray-500">
-                            {item.color} | {item.size}
-                        </p>
-                    </div>
-                    <div className="ml-auto text-right">
-                        <p className="text-md">${item.price}</p>
-                        <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
-                    </div>
+              <div key={item.productId} className="flex items-center mb-4">
+                <img
+                  src={item.Image}
+                  alt={item.name}
+                  className="w-16 h-16  object-cover rounded-md mr-4"
+                />
+                <div>
+                  <h4 className="text-md font-semibold">{item.name}</h4>
+                  <p className="text-sm text-gray-500">
+                    {item.color} | {item.size}
+                  </p>
                 </div>
+                <div className="ml-auto text-right">
+                  <p className="text-md">${item.price}</p>
+                  <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                </div>
+              </div>
             ))}
           </div>
           {/* Payment and Delivery Info */}
           <div className="grid grid-cols-2 gap-8">
             {/* Payment Info */}
             <div>
-                <h4 className="text-lg font-semibold mb-2">Payment</h4>
-                <p className="text-gray-600">Paypal</p>
+              <h4 className="text-lg font-semibold mb-2">Payment</h4>
+              <p className="text-gray-600">Paypal</p>
             </div>
 
             {/* Delivery Info */}
             <div>
-                <h4 className="text-lg font-semibold mb-2">Delivery</h4>
-                <p className="text-gray-600">
-                    {checkout.shippingAddress.address}
-                </p>
-                <p className="text-gray-600">
-                    {checkout.shippingAddress.city},{" "}
-                    {checkout.shippingAddress.country}
-                </p>
+              <h4 className="text-lg font-semibold mb-2">Delivery</h4>
+              <p className="text-gray-600">
+                {checkout.shippingAddress.address}
+              </p>
+              <p className="text-gray-600">
+                {checkout.shippingAddress.city},{" "}
+                {checkout.shippingAddress.country}
+              </p>
             </div>
           </div>
         </div>
