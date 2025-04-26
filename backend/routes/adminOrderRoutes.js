@@ -22,7 +22,7 @@ router.get("/", protect, admin, async (req, res) => {
 // @access Private (admin only)
 router.put("/:id", protect, admin, async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id);
+    const order = await Order.findById(req.params.id).populate("user", "name");
     if (order) {
       order.status = req.body.status || order.status;
       order.isDelivered =
@@ -52,7 +52,7 @@ router.delete("/:id", protect, admin, async (req, res) => {
       res.status(200).json({ message: "Order removed successfully" });
     } else {
       res.status(404).json({ message: "Order not found" });
-    }   
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
