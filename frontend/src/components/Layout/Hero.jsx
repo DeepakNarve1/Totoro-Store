@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import heroImg from "../../assets/1354032.png";
+import heroImg from "../../assets/HeroSection1.png";
 
 const Hero = () => {
   return (
@@ -18,7 +18,10 @@ const Hero = () => {
           <p className="text-sm tracking-tighter md:text-lg mb-6">
             Explore our vacation-ready outfits with fast worldwide shipping.
           </p>
-          <Link to="collections/all" className="bg-white text-black px-6 py-3 rounded-sm text-lg">
+          <Link
+            to="collections/all"
+            className="bg-white text-black px-6 py-3 rounded-sm text-lg"
+          >
             Shop Now
           </Link>
         </div>
