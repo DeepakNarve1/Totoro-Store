@@ -40,7 +40,7 @@ const CartContents = ({ cart, userId, guestId }) => {
         >
           <div className="flex items-start">
             <img
-              src={product.image.url}
+              src={product.image}
               alt={product.name}
               className="w-16 h-20 sm:w-20 sm:h-24 object-cover mr-4 rounded"
             />
