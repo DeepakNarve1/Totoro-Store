@@ -11,7 +11,7 @@ const products = [
     brand: "Urban Threads",
     size: ["S", "M", "L", "XL", "XXL"],
     colors: ["Red", "Blue", "Yellow"],
-    collection: "Business Casual",
+    collections: "Business Casual",
     material: "Cotton",
     gender: "Men",
     images: [
@@ -760,7 +760,7 @@ const products = [
     gender: "Women",
     images: [
       {
-        url: "https://picsum.photos/500/500?random=29",
+        url: "/images/knitted-cropped-top1.jpg",
         altText: "Knitted Cropped Top",
       },
     ],

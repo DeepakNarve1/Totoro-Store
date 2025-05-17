@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db"); // importing the connectDB function from db.js
 const userRoutes = require("./routes/userRoutes"); // importing user routes
 const productRoutes = require("./routes/productRoutes"); // importing product routes
-const cartRoutes = require("./routes/cartRoutes"); 
+const cartRoutes = require("./routes/cartRoutes");
 const checkoutRoutes = require("./routes/checkoutRoutes");
 const orderRoutes = require("./routes/orderRoutes"); // importing order routes
 const uploadRoutes = require("./routes/uploadRoutes"); // importing upload routes
@@ -31,16 +31,16 @@ app.get("/", (req, res) => {
 // API Routes
 app.use("/api/users", userRoutes); // using user routes
 app.use("/api/products", productRoutes);
-app.use("/api/cart", cartRoutes); 
-app.use("/api/checkout", checkoutRoutes); 
-app.use("/api/orders", orderRoutes); 
+app.use("/api/cart", cartRoutes);
+app.use("/api/checkout", checkoutRoutes);
+app.use("/api/orders", orderRoutes);
 app.use("/api/upload", uploadRoutes); // using upload routes
 app.use("/api", subscribeRoute); // using subscriber routes
 
 // Admin Routes
 app.use("/api/admin/users", adminRoutes); // using admin routes
 app.use("/api/admin/products", adminProductRoutes);
-app.use("/api/admin/orders", adminOrderRoutes); 
+app.use("/api/admin/orders", adminOrderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
