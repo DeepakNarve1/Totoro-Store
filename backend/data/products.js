@@ -16,11 +16,11 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/products/buttonm-down-shirt.png",
+        url: "/products/Classic Oxford Button-Down Shirt.jpg",
         altText: "Classic Oxford Button-Down Shirt Front View",
       },
       {
-        url: "/products/buttonm-down-shirt.png",
+        url: "/products/Classic Oxford Button-Down Shirt1.jpg",
         altText: "Classic Oxford Button-Down Shirt Back View",
       },
     ],
