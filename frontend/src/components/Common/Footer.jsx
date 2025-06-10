@@ -8,9 +8,9 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="border-t py-12">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4 lg:px-0">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 px-4 lg:px-0">
         <div>
-          <h3 className="text-lg text-gray-800">Newsletter</h3>
+          <h3 className="text-lg text-gray-800 mb-4">Newsletter</h3>
           <p className="text-gray-500 mb-4">
             Be to first to hear about new products, exclusive events, and online
             offers.
@@ -35,7 +35,7 @@ const Footer = () => {
           </form>
         </div>
         {/* Shop links */}
-        <div>
+        <div className="px-15">
           <h3 className="text-lg text-gray-800 mb-4">Shop</h3>
           <ul className="space-y-2 text-gray-600">
             <li>
@@ -61,7 +61,7 @@ const Footer = () => {
           </ul>
         </div>
         {/* Support Links */}
-        <div>
+        <div className="px-15">
           <h3 className="text-lg text-gray-800 mb-4">Support</h3>
           <ul className="space-y-2 text-gray-600">
             <li>
@@ -87,7 +87,7 @@ const Footer = () => {
           </ul>
         </div>
         {/* Follow us */}
-        <div>
+        <div className="px-15">
           <h3 className="text-lg text-gray-800 mb-4">Follow Us</h3>
           <div className=" flex items-center space-x-4 mb-6">
             <a
