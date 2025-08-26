@@ -15,7 +15,7 @@ const adminOrderRoutes = require("./routes/adminOrderRoutes"); // importing orde
 
 const app = express(); // initializing an application using express
 app.use(express.json());
-app.use(cors());
+app.use(cors((origin = "https://totoro-rose.vercel.app")));
 
 dotenv.config(); // loading environment variables from .env file
 
